@@ -5,10 +5,13 @@ using namespace std;
 int e[300][300], book[300], Time[300];
 long long totalDistance[300][300], dis[300];
 string res[300], Route[300][300];
+int n = 290, m;
+int minNum = 0, u, s;
 
 int main() {
-    int n = 290, m;
-    int minNum = 0, u, s = 0;
+    freopen("src.in", "r", stdin);
+    scanf("%d", &s);
+    fclose(stdin);
     freopen("data.in", "r", stdin);
     cin >> m;
     for (int i = 0; i < n; i++) {
@@ -33,7 +36,8 @@ int main() {
         e[p][q] = t;
         totalDistance[p][q] = d;
     }
-    for (int i = s; i < n; i++) {
+    fclose(stdin);
+    for (int i = 0; i < n; i++) {
         Time[i] = e[s][i];
         dis[i] = totalDistance[s][i];
         res[i] = "";
@@ -58,10 +62,11 @@ int main() {
             }
         }
     }
-    cout << endl;
+    freopen("data.out", "w", stdout);
     cout << "NodeID\t\t\tTime\t\t\tDistance\t\t\tVia" << endl;
     for (int i = 1; i <= n; i++) {
         cout << i << "\t\t\t" << Time[i] << "\t\t\t" << dis[i] << "\t\t\t" << res[i] << endl;
     }
+    fclose(stdout);
     return 0;
 }

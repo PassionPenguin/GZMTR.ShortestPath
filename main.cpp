@@ -1,84 +1,89 @@
-#include <string>
-//#include <fstream>
 #include <iostream>
+#include <fstream>
 
-#define MAXN 99999999
-#define MAX_VERTEX_NUM 300
+using namespace std;
+int e[300][300], book[300], Time[300];
+long long totalDistance[300][300], dis[300];
+string res[300], Route[300][300];
+int n = 290, m;
+int minNum = 0, u, src;
+
 using namespace std;
 
-int Distance[MAX_VERTEX_NUM][MAX_VERTEX_NUM], weight[MAX_VERTEX_NUM][MAX_VERTEX_NUM];
-
-string link[MAX_VERTEX_NUM][MAX_VERTEX_NUM]; // The output array. link[i] will hold the node id it travel.
-
-void initPath(int dist[MAX_VERTEX_NUM], bool sptSet[MAX_VERTEX_NUM]) {
-    // Initialize all distances as INFINITE and stpSet[] as false
-    for (int i = 0; i < MAX_VERTEX_NUM; i++)
-        dist[i] = INT_MAX, sptSet[i] = false;
+void initPath() {
+    // Initialize all distances as INFINITE
+    // If it's the same station, it should always be zero
+    for (int i = 0; i < n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (i == j)
+                e[i][j] = 0;
+            else {
+                e[i][j] = INT_MAX;
+            }
+        }
+    }
 }
 
 void readPath() {
-//    ifstream fin;
-//    fin.open("data.in");
-    int j;
-    cin >> j;
-    for (int i = 0; i < j; i++) {
-        int p, q, m, n;
-        cin >> p >> q >> m >> n;
-        weight[p][q] = m; // Input Node Weight
-        Distance[p][q] = n; // Input Node Distance ( NOT WEIGHT )
+    freopen("data.in", "r", stdin);
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        int p, q, t, d;
+        cin >> p >> q >> t >> d;
+        e[p][q] = e[q][p] = t;
+        totalDistance[p][q] = totalDistance[q][p] = d;
     }
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        int p, q, t, d;
+        cin >> p >> q >> t >> d;
+        e[p][q] = t;
+        totalDistance[p][q] = d;
+    }
+    fclose(stdin);
 }
 
-// A utility function to find the vertex with minimum distance value, from
-// the set of vertices not yet included in shortest path tree
-int minDistance(int dist[], bool sptSet[]) {
-    int min = INT_MAX, min_index;
-    for (int v = 0; v < MAX_VERTEX_NUM; v++)
-        if ((!sptSet[v]) && dist[v] <= min)
-            min = dist[v], min_index = v;
-    return min_index;
+void initData() {
+    for (int i = 0; i < n; i++) {
+        Time[i] = e[src][i];
+        dis[i] = totalDistance[src][i];
+        res[i] = "";
+    }
+    book[src] = 1;
 }
 
-void dijkstra(int src) {
-    cout << "Running";
-    int time[MAX_VERTEX_NUM]; // The output array.  dist[i] will hold the shortest
-    // distance from src to i
-    int dist[MAX_VERTEX_NUM]; // The output array.  dist[i] will hold the shortest
-    // distance from src to i
-
-    bool sptSet[MAX_VERTEX_NUM]; // sptSet[i] will be true if vertex i is included in shortest
-    // path tree or shortest distance from src to i is finalized
-    initPath(dist, sptSet);
-    // Distance of source vertex from itself is always 0
-    dist[src] = 0;
-
-    // Find shortest path for all vertices
-    for (int count = 0; count < MAX_VERTEX_NUM - 1; count++) {
-        // Pick the minimum distance vertex from the set of vertices not
-        // yet processed. u is always equal to src in the first iteration.
-        int u = minDistance(time, sptSet);
-
-        // Mark the picked vertex as processed
-        sptSet[u] = true;
-
-        // Update dist value of the adjacent vertices of the picked vertex.
-        for (int v = 0; v < MAX_VERTEX_NUM; v++)
-
-            // Update dist[v] only if is not in sptSet, there is an edge from
-            // u to v, and total weight of path from src to v through u is
-            // smaller than current value of dist[v]
-            if (!sptSet[v] && weight[u][v] && time[u] != INT_MAX
-                && dist[u] + weight[u][v] < time[v]) {
-                time[v] = time[u] + weight[u][v];
-                dist[v] = dist[u] + Distance[u][v];
-                link[u][v] += to_string(v);
+void dijkstra() {
+    initData();
+    for (int i = 0; i < n - 1; i++) {
+        minNum = INT_MAX;
+        for (int j = 0; j < n; j++) {
+            if (book[j] == 0 && Time[j] < minNum) {
+                minNum = Time[j];
+                u = j;
             }
+        }
+        book[u] = 1;
+        for (int v = 0; v < n; v++) {
+            if (e[u][v] < INT_MAX) {
+                if (Time[v] > Time[u] + e[u][v]) {
+                    Time[v] = Time[u] + e[u][v];
+                    res[v] = res[u] + Route[u][v];
+                    dis[v] = dis[u] + totalDistance[u][v];
+                }
+            }
+        }
     }
 }
 
-int priceCalc(int dis) {
-    return dis <= 4000 ? 2 : dis <= 12000 ? 2 + 4 * int((dis - 4) / 4) : dis <= 24000 ? 5 + int((dis - 12) / 6)
-                                                                                      : 7 + int((dis - 24) / 8);
+int priceCalc(int distance) {
+    return distance <= 4000 ? 2 : distance <= 12000 ? 2 + 4 * int((distance - 4) / 4) : distance <= 24000 ? 5 +
+                                                                                                            int((distance -
+                                                                                                                 12) /
+                                                                                                                6)
+                                                                                                          : 7 +
+                                                                                                            int((distance -
+                                                                                                                 24) /
+                                                                                                                8);
     // Standard: https://zh.wikipedia.org/wiki/%E5%B9%BF%E5%B7%9E%E5%9C%B0%E9%93%81#%E7%A5%A8%E4%BB%B7
     // dis ≤ 4km: 2 CNY
     // 4km < dis ≤ 12km, every 4km in this part increase 1 CNY
@@ -86,13 +91,23 @@ int priceCalc(int dis) {
     // 24km < dis, every 8km in this part increase 1 CNY
 }
 
+void printResult() {
+    freopen("data.out", "w", stdout);
+    cout << "NodeID\t\t\tTime\t\t\tDistance\t\t\tVia\t\t\tPrice" << endl;
+    for (int i = 1; i <= n; i++) {
+        cout << i << "\t\t\t" << Time[i] << "\t\t\t" << dis[i] << "\t\t\t" << res[i] << "\t\t\t" << priceCalc(dis[i])
+             << endl;
+    }
+    fclose(stdout);
+}
+
 int main() {
     // Read (Import) all path
     readPath();
     // WHERE IN and WHERE OUT
-    int src, targ;
-    cin >> src >> targ;
-    dijkstra(src);
-    cout << weight[src][targ] << " " << Distance[src][targ] << " " << link[src][targ];
+    freopen("src.in", "r", stdin);
+    src=140;
+    dijkstra();
+    printResult();
     return 0;
 }

@@ -36,8 +36,11 @@ void dijkstra() // -> Calc
 ```
 
 我们有这些文件:
-|---Root
- |---main.cpp // the program file
- |---data.in // store the data
- |---src.in // where user input the source and the target
- |---data.out // where the program outputs the result
+
+main.cpp // the program file
+ 
+data.in // store the data
+ 
+src.in // where user input the source and the target
+ 
+data.out // where the program outputs the result

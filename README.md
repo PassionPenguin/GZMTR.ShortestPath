@@ -1,7 +1,7 @@
 # GZMTR Shortest Path Calculator
 GZMTR Shortest Path Calculator is a C++ program for calculate the shortest path between stations. This progran support to simply calculate the price, the route as well.
 
-![Logo](./background.png)
+![Logo](background.png)
 
 [ENGLISH](README.md) [CHINESE](README.cn.md)
 :grinning: Thanks for your visiting.

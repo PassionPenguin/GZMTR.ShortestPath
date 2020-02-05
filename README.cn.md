@@ -24,3 +24,20 @@ g++ main.cpp -o ./exec
 Creative Commons V3 BY-SA协议
 
 ## DOC
+我们有这些函数:
+```c++
+void getSourceAndTarget() // -> Get Source and Get Target ID, eg: 0 240
+void initPath() // -> init all links between vertices as infinite or 0
+void readPath() // -> Get source from data.in in this format: id1 id2 time-cost length, all parameters are Int
+void initData() // -> Make exists data into Time, dis, res
+int priceCalc(int distance) // -> Return Price
+void printResult() // -> Print result in this format: targetID time-cost result price
+void dijkstra() // -> Calc
+```
+
+我们有这些文件:
+|---Root
+ |---main.cpp // the program file
+ |---data.in // store the data
+ |---src.in // where user input the source and the target
+ |---data.out // where the program outputs the result

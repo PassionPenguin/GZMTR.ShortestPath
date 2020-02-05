@@ -65,14 +65,9 @@ void initData() {
 }
 
 int priceCalc(int distance) {
-    return distance <= 4000 ? 2 : distance <= 12000 ? 2 + 4 * int((distance - 4) / 4) : distance <= 24000 ? 5 +
-                                                                                                            int((distance -
-                                                                                                                 12) /
-                                                                                                                6)
-                                                                                                          : 7 +
-                                                                                                            int((distance -
-                                                                                                                 24) /
-                                                                                                                8);
+    return distance <= 4000 ? 2 : distance <= 12000 ? 2 + 4 * int((distance - 4) / 4) : distance <= 24000 ?
+                                                                                        5 + int((distance - 12) / 6) :
+                                                                                        7 + int((distance - 24) / 8);
     // Standard: https://zh.wikipedia.org/wiki/%E5%B9%BF%E5%B7%9E%E5%9C%B0%E9%93%81#%E7%A5%A8%E4%BB%B7
     // dis ≤ 4km: 2 CNY
     // 4km < dis ≤ 12km, every 4km in this part increase 1 CNY
@@ -82,9 +77,7 @@ int priceCalc(int distance) {
 
 void printResult() {
     freopen("data.out", "w", stdout);
-    cout << "NodeID\t\t\tTime\t\t\tDistance\t\t\tVia\t\t\tPrice" << endl;
-    cout << targ << "\t\t\t" << Time[targ] << "\t\t\t" << dis[targ] << "\t\t\t" << res[targ] << "\t\t\t"
-         << priceCalc(dis[targ]) << endl;
+    cout << targ << " " << Time[targ] << " " << dis[targ] << " " << res[targ] << " " << priceCalc(dis[targ]);
     fclose(stdout);
 }
 

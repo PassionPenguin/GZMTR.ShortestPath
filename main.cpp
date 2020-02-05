@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 
 using namespace std;
 int e[300][300], book[300], Time[300]; // Weight, the time

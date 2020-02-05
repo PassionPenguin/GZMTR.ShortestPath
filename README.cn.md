@@ -2,7 +2,7 @@
 gZMTR Shortest Path Calculator is a C++ program for calculate the shortest path between stations. This progran support to simply calculate the price, the route as well.
 广州地铁最短路径计算器是一个基于C++的程序，用于快速计算两个站点之间的最短路径。同时该程序也支持简单计算票价（由于新票价计算方案对于2006年前开通的线路，按照哪个方案低用哪个的标准与2010年二八拆解会有所不准确）
 
-[!Logo](./background.png)
+![Logo](./background.png)
 
 [ENGLISH](README.md) [CHINESE](README.cn.md)
 :grinning: 感谢您关注我们项目
